@@ -58,13 +58,23 @@ public class Board  {
     // Returns true if move is possible given board state.  
     public boolean possibleMove(Move move) {
         // TODO: write this.  Right now, it ignores filled columns, claiming any move is possible
-        return true;
+        for(int r = 0 ; r<rows; r++){
+                if(grid[r][move.getColumn()] == null){
+                    return true;
+                }
+        }
+        return false;
     }
     
     // Adds a piece to the board for a given Move
     public void addPiece(Move move) {
         //TODO: this is a test stub, you need to rewrite this.
-    	grid[0][move.getColumn()] = move.getPlayer();
+    	// grid[0][move.getColumn()] = move.getPlayer();
+        int i = 0;
+        while(grid[i][move.getColumn()]!=null){
+            i++;
+        }
+        grid[i][move.getColumn()] = move.getPlayer();
     }
 
     // if the board contains a winning position, returns the Player that wins.
@@ -73,6 +83,43 @@ public class Board  {
         // TODO: write this.  Currently, there is never a winnder.
         return null;
     }
+
+    public Player colWinner(Move lastMove){
+        int x = 0;
+        for(int r = 1; r<rows;r++){
+            if(grid[r][lastMove.getColumn()].equals(grid[r-1][lastMove.getColumn()])){
+                x++;
+            }else{
+                x = 0;
+            }
+            if(x == 4){
+                return lastMove.getPlayer();
+            }
+        }
+        return null;
+    }
+
+    public Player rowWinner(Move lastMove){
+        int x = 0;
+        for(int r = 0;r<rows;r++){
+            for(int c = lastMove.getColumn()-2;c<lastMove.getColumn()+4;c++){
+                if(grid[r][c].equals(grid[r][c-1])){
+                    x++;
+                }else{
+                    x = 0;
+                }
+                if(x == 4){
+                    return lastMove.getPlayer();
+                }
+            }
+        }
+        return null;
+    }
+
+    public Player diagWinner(Move lastMove){
+        return null;
+    }
+
     
     
 } // end Board class
