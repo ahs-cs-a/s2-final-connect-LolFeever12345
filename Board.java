@@ -51,8 +51,14 @@ public class Board  {
     
     //returns true if there are no more plays left
     public boolean boardFilled(){
-        //TODO: write this
-        return false; 
+        for(int r =0;r<rows;r++){
+            for(int c = 0;c<cols;c++){
+                if(grid[r][c] == null){
+                    return false;
+                }
+            }
+        }
+        return true; 
     }
 
     // Returns true if move is possible given board state.  
@@ -81,13 +87,19 @@ public class Board  {
     // Otherwise, returns null.  You could ignore lastMove.
     public Player winner(Move lastMove) {
         // TODO: write this.  Currently, there is never a winnder.
-        return null;
+        if(colWinner(lastMove)!=null){
+            return colWinner(lastMove);
+        }else if(rowWinner(lastMove)!=null){
+            return rowWinner(lastMove);
+        }else{
+            return diagWinner(lastMove);
+        }
     }
 
     public Player colWinner(Move lastMove){
         int x = 0;
         for(int r = 1; r<rows;r++){
-            if(grid[r][lastMove.getColumn()].equals(grid[r-1][lastMove.getColumn()])){
+            if(grid[r][lastMove.getColumn()]==(grid[r-1][lastMove.getColumn()])){
                 x++;
             }else{
                 x = 0;
@@ -101,9 +113,15 @@ public class Board  {
 
     public Player rowWinner(Move lastMove){
         int x = 0;
+        int fc = 0;
+        if(lastMove.getColumn() == cols){
+            fc = cols;
+        }else if(cols-lastMove.getColumn()<4){
+            fc = cols;
+        }
         for(int r = 0;r<rows;r++){
-            for(int c = lastMove.getColumn()-2;c<lastMove.getColumn()+4;c++){
-                if(grid[r][c].equals(grid[r][c-1])){
+            for(int c = lastMove.getColumn()-2;c<fc;c++){
+                if(grid[r][c]==(grid[r][c-1])){
                     x++;
                 }else{
                     x = 0;
@@ -117,6 +135,13 @@ public class Board  {
     }
 
     public Player diagWinner(Move lastMove){
+        for(int r = 0;r<rows;r++){
+            for(int c = 0;r<cols;c++){
+                if(grid[r][c]==(grid[r+1][c+1])&&grid[r+1][c+1]==(grid[r+2][c+2])&&grid[r+2][c+2]==(grid[r+3][c+3])){
+                    return lastMove.getPlayer();
+                }
+            }
+        }
         return null;
     }
 
