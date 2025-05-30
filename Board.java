@@ -97,9 +97,9 @@ public class Board  {
     }
 
     public Player colWinner(Move lastMove){
-        int x = 0;
+        int x = 1;
         for(int r = 1; r<rows;r++){
-            if(grid[r][lastMove.getColumn()]==(grid[r-1][lastMove.getColumn()])){
+            if(grid[r][lastMove.getColumn()]==(grid[r-1][lastMove.getColumn()])&&grid[r][lastMove.getColumn()]!=null){
                 x++;
             }else{
                 x = 0;
@@ -113,15 +113,9 @@ public class Board  {
 
     public Player rowWinner(Move lastMove){
         int x = 0;
-        int fc = 0;
-        if(lastMove.getColumn() == cols){
-            fc = cols;
-        }else if(cols-lastMove.getColumn()<4){
-            fc = cols;
-        }
         for(int r = 0;r<rows;r++){
-            for(int c = lastMove.getColumn()-2;c<fc;c++){
-                if(grid[r][c]==(grid[r][c-1])){
+            for(int c = 0;c<cols-1;c++){
+                if(grid[r][c]==(grid[r][c+1])&&grid[r][c]!=null){
                     x++;
                 }else{
                     x = 0;
@@ -135,10 +129,21 @@ public class Board  {
     }
 
     public Player diagWinner(Move lastMove){
-        for(int r = 0;r<rows;r++){
-            for(int c = 0;r<cols;c++){
-                if(grid[r][c]==(grid[r+1][c+1])&&grid[r+1][c+1]==(grid[r+2][c+2])&&grid[r+2][c+2]==(grid[r+3][c+3])){
-                    return lastMove.getPlayer();
+        for(int r= 0;r<rows-4;r++){
+            for(int c=0;c<cols-4;c++){
+                if(grid[r][c]!=null){
+                    if(grid[r][c]==grid[r+1][c+1]&&grid[r+1][c+1]==grid[r+2][c+2]&&grid[r+2][c+2]==grid[r+3][c+3]){
+                        return lastMove.getPlayer();
+                    }
+                }
+            }
+        }
+        for(int r= 0;r<rows;r++){
+            for(int c=3;c<cols-4;c++){
+                if(grid[r][c]!=null){
+                    if(grid[r][c]==grid[r+1][c-1]&&grid[r+1][c-1]==grid[r+2][c-2]&&grid[r+2][c-2]==grid[r+3][c-3]){
+                        return lastMove.getPlayer();
+                    }
                 }
             }
         }

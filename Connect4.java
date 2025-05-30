@@ -88,9 +88,9 @@ public class Connect4 extends JPanel implements MouseListener{
         if(myBoard.boardFilled()){
             message = "The Game is tie - no more moves left";
             repaint();
-        // }else if(!myBoard.possibleMove(move)){
-        //     message = "There is no where to move in this column: "+ move.getColumn();
-        //     repaint();
+        }else if(!myBoard.possibleMove(move)){
+            message = "There is no where to move in this column: "+ move.getColumn();
+            repaint();
         }else{
             myBoard.addPiece(move);
             message = getCurrentPlayer().getName() + " goes in column " + move.getColumn() + ".  ";
